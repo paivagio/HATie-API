@@ -11,6 +11,10 @@ class GetUserService {
         const user = await prismaClient.user.findFirst({
             where: {
                 id,
+            },
+            include: {
+                Member: true,
+                Institution: true
             }
         })
 

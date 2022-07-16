@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'src/utils/errors';
 import { AuthenticateUserService } from './AuthenticateUserService';
 
 class AuthenticateUserController {
@@ -17,7 +18,7 @@ class AuthenticateUserController {
             return null;
         }
 
-        return res.status(200).json(token);
+        return res.status(StatusCodes.OK).json(token);
     }
 }
 

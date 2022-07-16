@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'src/utils/errors';
 import { CreateUserService } from '../services/CreateUserService';
 
 class CreateUserController {
@@ -13,7 +14,7 @@ class CreateUserController {
             return next(user);
         }
 
-        return res.status(201).json(user);
+        return res.status(StatusCodes.CREATED).json(user);
     }
 }
 

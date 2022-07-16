@@ -1,15 +1,20 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { StatusCodes } from 'src/utils/errors';
 import { Service } from './mockService';
 
 class Controller {
-    async handle(req: Request, res: Response) {
+    async handle(req: Request, res: Response, next: NextFunction) {
         const { id } = req.body;
 
         const service = new Service();
 
         const user = await service.execute({ id });
 
-        return res.json(user);
+        if (user instanceof Error) {
+            return next(user);
+        }
+
+        return res.status(StatusCodes.CREATED).json(user);
     }
 }
 

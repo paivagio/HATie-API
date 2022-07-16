@@ -1,3 +1,4 @@
+import { User } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
 import { NotFoundError } from "src/utils/errors";
 
@@ -7,14 +8,15 @@ interface IDeleteUserRequest {
 
 class DeleteUserService {
     async execute({ id }: IDeleteUserRequest) {
+        let user: User;
 
-        const user = await prismaClient.user.delete({
-            where: {
-                id
-            }
-        });
-
-        if (!user) {
+        try {
+            user = await prismaClient.user.delete({
+                where: {
+                    id
+                }
+            });
+        } catch (err) {
             return new NotFoundError("User not found");
         }
 
