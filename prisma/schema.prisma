@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  fullname    String
+  email       String   @unique
+  password    String
+  isAdmin     Boolean
+  preferences Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  Institution Institution[]
+  Member      Member[]
+  @@map("users")
+}
+
+model Institution {
+  id        String   @id @default(uuid())
+  ownerId   String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  User    User      @relation(fields: [ownerId], references: [id])
+  Member  Member[]
+  Group   Group[]
+  Patient Patient[]
+  @@map("institutions")
+}
+
+enum Status {
+  PENDING
+  REJECTED
+  ACCEPTED
+}
+
+model Member {
+  id             String    @id @default(uuid())
+  userId         String
+  institutionId  String
+  authorizations Int       @default(100)
+  invitation     Status    @default(PENDING)
+  acceptedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  User        User          @relation(fields: [userId], references: [id])
+  Institution Institution   @relation(fields: [institutionId], references: [id])
+  GroupMember GroupMember[]
+  @@map("members")
+}
+
+model Group {
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  institutionId String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  Institution Institution   @relation(fields: [institutionId], references: [id])
+  GroupMember GroupMember[]
+  Patient     Patient[]
+  @@map("groups")
+}
+
+model GroupMember {
+  id             String @id @default(uuid())
+  memberId       String
+  groupId        String
+  authorizations Int    @default(100)
+
+  Member Member @relation(fields: [memberId], references: [id])
+  Group  Group  @relation(fields: [groupId], references: [id])
+  @@map("group_members")
+}
+
+model Patient {
+  id            String    @id @default(uuid())
+  fullname      String
+  birthDate     DateTime?
+  height        Decimal?
+  weight        Decimal?
+  groupId       String?
+  institutionId String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  Institution   Institution     @relation(fields: [institutionId], references: [id])
+  Group         Group?          @relation(fields: [groupId], references: [id])
+  Summarization Summarization[]
+  @@map("patients")
+}
+
+model Summarization {
+  id            String   @id @default(uuid())
+  patientId     String
+  title         String
+  transcription String   @db.Text
+  audioPath     String?
+  insights      Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  Patient Patient @relation(fields: [patientId], references: [id])
+  @@map("summarizations")
+}
