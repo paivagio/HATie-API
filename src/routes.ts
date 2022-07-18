@@ -16,7 +16,14 @@ const {
     getMembersController,
     updateMemberController,
     deleteMemberController,
-    createInstitutionController
+    createInstitutionController,
+    getInstitutionController,
+    updateInstitutionController,
+    deleteInstitutionController,
+    createGroupController,
+    getGroupController,
+    updateGroupController,
+    deleteGroupController
 } = new initializeControllers();
 
 routes.post("/auth", authenticateUserController().handle);
@@ -31,6 +38,14 @@ routes.get("/institutions/:id/members", ensureAuthenticated, getMembersControlle
 routes.patch("/members/:id", ensureAuthenticated, updateMemberController().handle);
 routes.delete("/members/:id", ensureAuthenticated, deleteMemberController().handle);
 
-routes.post("/institutions", ensureAuthenticated, createInstitutionController().handle)
+routes.post("/institutions", ensureAuthenticated, createInstitutionController().handle);
+routes.get("/institutions/:id", ensureAuthenticated, getInstitutionController().handle);
+routes.patch("/institutions/:id", ensureAuthenticated, updateInstitutionController().handle);
+routes.delete("/institutions/:id", ensureAuthenticated, deleteInstitutionController().handle);
+
+routes.post("/institutions/:id/groups", ensureAuthenticated, createGroupController().handle);
+routes.get("/groups/:id", ensureAuthenticated, getGroupController().handle);
+routes.patch("/groups/:id", ensureAuthenticated, updateGroupController().handle);
+routes.delete("/groups/:id", ensureAuthenticated, deleteGroupController().handle);
 
 export { routes };

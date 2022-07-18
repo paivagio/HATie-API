@@ -1,5 +1,12 @@
 import { AuthenticateUserController } from "./modules/authentication/AuthenticateUserController";
+import { CreateGroupController } from "./modules/groups/controllers/CreateGroupController";
+import { DeleteGroupController } from "./modules/groups/controllers/DeleteGroupController";
+import { GetGroupController } from "./modules/groups/controllers/GetGroupController";
+import { UpdateGroupController } from "./modules/groups/controllers/UpdateGroupController";
 import { CreateInstitutionController } from "./modules/institution/controllers/CreateInstitutionController";
+import { DeleteInstitutionController } from "./modules/institution/controllers/DeleteInstitutionController";
+import { GetInstitutionController } from "./modules/institution/controllers/GetInstitutionController";
+import { UpdateInstitutionController } from "./modules/institution/controllers/UpdateInstitutionController";
 import { CreateMemberController } from "./modules/member/controllers/CreateMemberController";
 import { DeleteMemberController } from "./modules/member/controllers/DeleteMemberController";
 import { GetMemberController } from "./modules/member/controllers/GetMemberController";
@@ -25,6 +32,14 @@ class initializeControllers {
     deleteMemberController = () => { return new DeleteMemberController() };
 
     createInstitutionController = () => { return new CreateInstitutionController() };
+    getInstitutionController = () => { return new GetInstitutionController() };
+    updateInstitutionController = () => { return new UpdateInstitutionController() };
+    deleteInstitutionController = () => { return new DeleteInstitutionController() };
+
+    createGroupController = () => { return new CreateGroupController() };
+    getGroupController = () => { return new GetGroupController() };
+    updateGroupController = () => { return new UpdateGroupController() };
+    deleteGroupController = () => { return new DeleteGroupController() };
 }
 
 export { initializeControllers };
