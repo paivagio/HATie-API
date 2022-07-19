@@ -1,4 +1,8 @@
 import { AuthenticateUserController } from "./modules/authentication/AuthenticateUserController";
+import { CreateGroupMemberController } from "./modules/groupMember/controllers/CreateGroupMemberController";
+import { DeleteGroupMemberController } from "./modules/groupMember/controllers/DeleteGroupMemberController";
+import { GetGroupMemberController } from "./modules/groupMember/controllers/GetGroupMemberContreoller";
+import { UpdateGroupMemberController } from "./modules/groupMember/controllers/UpdateGroupMemberController";
 import { CreateGroupController } from "./modules/groups/controllers/CreateGroupController";
 import { DeleteGroupController } from "./modules/groups/controllers/DeleteGroupController";
 import { GetGroupController } from "./modules/groups/controllers/GetGroupController";
@@ -40,6 +44,11 @@ class initializeControllers {
     getGroupController = () => { return new GetGroupController() };
     updateGroupController = () => { return new UpdateGroupController() };
     deleteGroupController = () => { return new DeleteGroupController() };
+
+    createGroupMemberController = () => { return new CreateGroupMemberController() };
+    getGroupMemberController = () => { return new GetGroupMemberController() };
+    updateGroupMemberController = () => { return new UpdateGroupMemberController() };
+    deleteGroupMemberController = () => { return new DeleteGroupMemberController() };
 }
 
 export { initializeControllers };
