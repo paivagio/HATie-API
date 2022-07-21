@@ -1,0 +1,28 @@
+import { prismaClient } from "src/database/prismaClient";
+import { NotFoundError } from "src/utils/errors";
+
+interface IRequest {
+    id: string;
+}
+
+class GetPatientService {
+    async execute({ id }: IRequest) {
+
+        const patient = await prismaClient.patient.findFirst({
+            where: {
+                id,
+            },
+            include: {
+                Summarization: true
+            }
+        });
+
+        if (!patient) {
+            return new NotFoundError("Patient not found");
+        }
+
+        return patient;
+    }
+}
+
+export { GetPatientService }

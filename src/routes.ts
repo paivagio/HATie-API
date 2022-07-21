@@ -1,4 +1,4 @@
-import { Router } from "express";
+import e, { Router } from "express";
 import { initializeControllers } from "./initializeControllers";
 import { ensureAdmin } from "./middleware/ensureAdmin";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
@@ -27,7 +27,11 @@ const {
     createGroupMemberController,
     getGroupMemberController,
     updateGroupMemberController,
-    deleteGroupMemberController
+    deleteGroupMemberController,
+    createPatientController,
+    getPatientController,
+    updatePatientController,
+    deletePatientController
 } = new initializeControllers();
 
 routes.post("/auth", authenticateUserController().handle);
@@ -56,5 +60,10 @@ routes.post("/groups/:id/groupmembers", ensureAuthenticated, createGroupMemberCo
 routes.get("/groupmembers/:id", ensureAuthenticated, getGroupMemberController().handle);
 routes.patch("/groupmembers/:id", ensureAuthenticated, updateGroupMemberController().handle);
 routes.delete("/groupmembers/:id", ensureAuthenticated, deleteGroupMemberController().handle);
+
+routes.post("/institutions/:id/patients", ensureAuthenticated, createPatientController().handle);
+routes.get("/patients/:id", ensureAuthenticated, getPatientController().handle);
+routes.patch("/patients/:id", ensureAuthenticated, updatePatientController().handle);
+routes.delete("/patients/:id", ensureAuthenticated, deletePatientController().handle);
 
 export { routes };

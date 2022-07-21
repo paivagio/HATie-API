@@ -16,6 +16,10 @@ import { DeleteMemberController } from "./modules/member/controllers/DeleteMembe
 import { GetMemberController } from "./modules/member/controllers/GetMemberController";
 import { GetMembersController } from "./modules/member/controllers/GetMembersController";
 import { UpdateMemberController } from "./modules/member/controllers/UpdateMemberController";
+import { CreatePatientController } from "./modules/patient/controllers/CreatePatientController";
+import { DeletePatientController } from "./modules/patient/controllers/DeletePatientController";
+import { GetPatientController } from "./modules/patient/controllers/GetPatientController";
+import { UpdatePatientController } from "./modules/patient/controllers/UpdatePatientController";
 import { CreateUserController } from "./modules/user/controllers/CreateUserController";
 import { DeleteUserController } from "./modules/user/controllers/DeleteUserController";
 import { GetUserController } from "./modules/user/controllers/GetUserController";
@@ -49,6 +53,11 @@ class initializeControllers {
     getGroupMemberController = () => { return new GetGroupMemberController() };
     updateGroupMemberController = () => { return new UpdateGroupMemberController() };
     deleteGroupMemberController = () => { return new DeleteGroupMemberController() };
+
+    createPatientController = () => { return new CreatePatientController() };
+    getPatientController = () => { return new GetPatientController() };
+    updatePatientController = () => { return new UpdatePatientController() };
+    deletePatientController = () => { return new DeletePatientController() };
 }
 
 export { initializeControllers };
