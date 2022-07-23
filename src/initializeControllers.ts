@@ -20,6 +20,10 @@ import { CreatePatientController } from "./modules/patient/controllers/CreatePat
 import { DeletePatientController } from "./modules/patient/controllers/DeletePatientController";
 import { GetPatientController } from "./modules/patient/controllers/GetPatientController";
 import { UpdatePatientController } from "./modules/patient/controllers/UpdatePatientController";
+import { CreateSummarizationController } from "./modules/summarization/controllers/CreateSummarizationController";
+import { DeleteSummarizationController } from "./modules/summarization/controllers/DeleteSummarizationController";
+import { GetSummarizationController } from "./modules/summarization/controllers/GetSummarizationController";
+import { UpdateSummarizationController } from "./modules/summarization/controllers/UpdateSummarizationController";
 import { CreateUserController } from "./modules/user/controllers/CreateUserController";
 import { DeleteUserController } from "./modules/user/controllers/DeleteUserController";
 import { GetUserController } from "./modules/user/controllers/GetUserController";
@@ -58,6 +62,11 @@ class initializeControllers {
     getPatientController = () => { return new GetPatientController() };
     updatePatientController = () => { return new UpdatePatientController() };
     deletePatientController = () => { return new DeletePatientController() };
+
+    createSummarizationController = () => { return new CreateSummarizationController() };
+    getSummarizationController = () => { return new GetSummarizationController() };
+    updateSummarizationController = () => { return new UpdateSummarizationController() };
+    deleteSummarizationController = () => { return new DeleteSummarizationController() };
 }
 
 export { initializeControllers };

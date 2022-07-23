@@ -1,7 +1,9 @@
 import e, { Router } from "express";
 import { initializeControllers } from "./initializeControllers";
-import { ensureAdmin } from "./middleware/ensureAdmin";
+import { FlacConverter } from "./middleware/conversionHandler";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
+import { FileHandler } from "./middleware/fileHandler";
+import { UploadFileToGoogleCloudStorageFromLocalStorage } from "./middleware/uploadHandler";
 
 const routes = Router();
 
@@ -31,17 +33,21 @@ const {
     createPatientController,
     getPatientController,
     updatePatientController,
-    deletePatientController
+    deletePatientController,
+    createSummarizationController,
+    getSummarizationController,
+    updateSummarizationController,
+    deleteSummarizationController
 } = new initializeControllers();
 
 routes.post("/auth", authenticateUserController().handle);
-routes.post("/users", ensureAuthenticated, createUserController().handle);
-routes.get("/users/:id", getUserController().handle);
+routes.post("/users", createUserController().handle);
+routes.get("/users/:id", ensureAuthenticated, getUserController().handle);
 routes.patch("/users/:id", ensureAuthenticated, updateUserController().handle);
-routes.delete("/users/:id", ensureAuthenticated, ensureAdmin, deleteUserController().handle);
+routes.delete("/users/:id", ensureAuthenticated, deleteUserController().handle);
 
 routes.post("/institutions/:id/members", ensureAuthenticated, createMemberController().handle);
-routes.get("/members/:id", getMemberController().handle);
+routes.get("/members/:id", ensureAuthenticated, getMemberController().handle);
 routes.get("/institutions/:id/members", ensureAuthenticated, getMembersController().handle);
 routes.patch("/members/:id", ensureAuthenticated, updateMemberController().handle);
 routes.delete("/members/:id", ensureAuthenticated, deleteMemberController().handle);
@@ -65,5 +71,10 @@ routes.post("/institutions/:id/patients", ensureAuthenticated, createPatientCont
 routes.get("/patients/:id", ensureAuthenticated, getPatientController().handle);
 routes.patch("/patients/:id", ensureAuthenticated, updatePatientController().handle);
 routes.delete("/patients/:id", ensureAuthenticated, deletePatientController().handle);
+
+routes.post("/patients/:id/summarizations", ensureAuthenticated, FileHandler, FlacConverter, UploadFileToGoogleCloudStorageFromLocalStorage, createSummarizationController().handle);
+routes.get("/summarizations/:id", ensureAuthenticated, getSummarizationController().handle);
+routes.patch("/summarizations/:id", ensureAuthenticated, updateSummarizationController().handle);
+routes.delete("/summarizations/:id", ensureAuthenticated, deleteSummarizationController().handle);
 
 export { routes };
