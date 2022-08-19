@@ -8,4 +8,4 @@ app.use(express.json());
 app.use(routes);
 app.use(ErrorHandler);
 
-app.listen(3000, () => console.log("Server is running"));
+app.listen(4000, () => console.log(`Server is running in http://localhost:4000`));

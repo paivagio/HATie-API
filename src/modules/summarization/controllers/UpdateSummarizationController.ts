@@ -5,11 +5,11 @@ import { UpdateSummarizationService } from '../services/UpdateSummarizationServi
 class UpdateSummarizationController {
     async handle(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
-        const { transcription, audioPath } = req.body;
+        const { title, transcription, audioPath, insights } = req.body;
 
         const udpateSummarizationService = new UpdateSummarizationService();
 
-        const summarization = await udpateSummarizationService.execute({ id, transcription, audioPath });
+        const summarization = await udpateSummarizationService.execute({ id, title, transcription, audioPath, insights });
 
         if (summarization instanceof Error) {
             return next(summarization);

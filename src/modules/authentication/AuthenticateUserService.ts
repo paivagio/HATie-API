@@ -40,7 +40,7 @@ class AuthenticateUserService {
             }
         );
 
-        return token;
+        return { token: token, user: user };
     }
 }
 

@@ -5,11 +5,11 @@ import { UpdateMemberService } from '../services/UpdateMemberService';
 class UpdateMemberController {
     async handle(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
-        const { authorizations } = req.body;
+        const { authorizations, invitation } = req.body;
 
         const updateMemberService = new UpdateMemberService();
 
-        const member = await updateMemberService.execute({ id, authorizations });
+        const member = await updateMemberService.execute({ id, authorizations, invitation });
 
         if (member instanceof Error) {
             return next(member);

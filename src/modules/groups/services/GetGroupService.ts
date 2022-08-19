@@ -13,7 +13,12 @@ class GetGroupService {
                 id,
             },
             include: {
-                Patient: true
+                Patient: true,
+                _count: {
+                    select: {
+                        GroupMember: true
+                    }
+                }
             }
         });
 

@@ -22,6 +22,7 @@ model User {
 
   Institution Institution[]
   Member      Member[]
+
   @@map("users")
 }
 
@@ -36,6 +37,7 @@ model Institution {
   Member  Member[]
   Group   Group[]
   Patient Patient[]
+
   @@map("institutions")
 }
 
@@ -58,6 +60,7 @@ model Member {
   User        User          @relation(fields: [userId], references: [id])
   Institution Institution   @relation(fields: [institutionId], references: [id])
   GroupMember GroupMember[]
+
   @@map("members")
 }
 
@@ -72,6 +75,7 @@ model Group {
   Institution Institution   @relation(fields: [institutionId], references: [id])
   GroupMember GroupMember[]
   Patient     Patient[]
+
   @@map("groups")
 }
 
@@ -83,6 +87,7 @@ model GroupMember {
 
   Member Member @relation(fields: [memberId], references: [id])
   Group  Group  @relation(fields: [groupId], references: [id])
+
   @@map("group_members")
 }
 
@@ -100,19 +105,28 @@ model Patient {
   Institution   Institution     @relation(fields: [institutionId], references: [id])
   Group         Group?          @relation(fields: [groupId], references: [id])
   Summarization Summarization[]
+
   @@map("patients")
 }
 
+enum SummarizationStatus {
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
 model Summarization {
-  id            String   @id @default(uuid())
+  id            String              @id @default(uuid())
   patientId     String
   title         String
-  transcription String   @db.Text
+  transcription String              @db.Text
   audioPath     String?
   insights      Json
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  status        SummarizationStatus @default(PROCESSING)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
 
   Patient Patient @relation(fields: [patientId], references: [id])
+
   @@map("summarizations")
 }

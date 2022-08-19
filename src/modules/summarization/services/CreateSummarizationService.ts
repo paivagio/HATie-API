@@ -4,11 +4,10 @@ import { InformationExtractionResults } from "./tools/NaturalLanguageProcessingS
 
 interface IRequest {
     id: string;
-    data: InformationExtractionResults;
 }
 
 class CreateSummarizationService {
-    async execute({ id, data }: IRequest) {
+    async execute({ id }: IRequest) {
         const patientExists = await prismaClient.patient.findFirst({
             where: {
                 id
@@ -22,10 +21,10 @@ class CreateSummarizationService {
         const summarization = await prismaClient.summarization.create({
             data: {
                 patientId: id,
-                title: data.title,
-                transcription: data.transcription,
-                audioPath: data.audioPath,
-                insights: data.insights
+                title: "",
+                transcription: "",
+                audioPath: null,
+                insights: {}
             }
         })
 

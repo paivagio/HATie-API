@@ -8,12 +8,12 @@ if __name__ == "__main__":
 
     transcription = args['transcription']
 
-    transcription = "Paciente apresenta quadro de diabetes e relata estar tomando amoxilina. Procedimento padrão aplicado e pedido hemograma completo."
+    #transcription = "Paciente apresenta quadro de diabetes e relata estar tomando amoxilina. Procedimento padrão aplicado e pedido hemograma completo."
 
     tags = [
-        { "tag": "Diabetes", "category": "condition" },
-        { "tag": "Amoxilina", "category": "medicine" },
-        { "tag": "Hemograma completo", "category": "procedure" }
+        { "name": "Diabetes", "type": "Condition" },
+        { "name": "Amoxilina", "type": "Substance" },
+        { "name": "Hemograma completo", "type": "Procedure" }
     ]
 
     highlightedTranscription = [

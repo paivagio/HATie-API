@@ -1,3 +1,4 @@
+import { Status } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
 import { NotFoundError } from "src/utils/errors";
 
@@ -13,7 +14,28 @@ class GerInstitutionService {
                 id,
             },
             include: {
-                Group: true
+                Group: {
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        institutionId: true,
+                        createdAt: true,
+                        updatedAt: true,
+                        _count: {
+                            select: {
+                                Patient: true
+                            }
+                        }
+                    }
+                },
+                User: true,
+                _count: {
+                    select: {
+                        Patient: true,
+                        Member: true
+                    }
+                }
             }
         })
 

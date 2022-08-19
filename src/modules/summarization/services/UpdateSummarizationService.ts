@@ -1,15 +1,19 @@
-import { Summarization } from "@prisma/client";
+import { Summarization, SummarizationStatus } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
 import { BadRequestError, NotFoundError } from "src/utils/errors";
+import { Insights } from "./tools/NaturalLanguageProcessingService";
 
 interface IRequest {
     id: string;
-    transcription: string;
-    audioPath: string;
+    title?: string;
+    transcription?: string;
+    audioPath?: string;
+    insights?: Insights;
+    status?: SummarizationStatus;
 }
 
 class UpdateSummarizationService {
-    async execute({ id, transcription, audioPath }: IRequest) {
+    async execute({ id, title, transcription, audioPath, insights, status }: IRequest) {
         let summarization: Summarization;
 
         if (!id) {
@@ -22,8 +26,11 @@ class UpdateSummarizationService {
                     id,
                 },
                 data: {
+                    title: title ? title : undefined,
                     transcription: transcription ? transcription : undefined,
-                    audioPath: audioPath ? (audioPath === "clear" ? null : audioPath) : undefined
+                    audioPath: audioPath ? (audioPath === "clear" ? null : audioPath) : undefined,
+                    insights: insights ? { ...insights } : undefined,
+                    status: status ? status : undefined
                 }
             })
             console.log(audioPath === "")

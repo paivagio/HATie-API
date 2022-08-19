@@ -6,25 +6,27 @@ interface IRequest {
     audioPath: string;
 }
 
+interface Insights {
+    tags: Array<{ tag: string; category: string }>;
+    highlightedTranscription: Array<{ words: string; category: string }>;
+    structuredData: {
+        conditions: Array<string>;
+        substances: {
+            medicines: Array<string>;
+            other: Array<string>;
+        };
+        procedures: {
+            imagingExams: Array<string>;
+            laboratoryTests: Array<string>;
+        };
+    }
+}
+
 interface InformationExtractionResults {
     title: string
     transcription: string;
     audioPath: string;
-    insights: {
-        tags: Array<{ tag: string; category: string }>;
-        highlightedTranscription: Array<{ words: string; category: string }>;
-        structuredData: {
-            conditions: Array<string>;
-            substances: {
-                medicines: Array<string>;
-                other: Array<string>;
-            };
-            procedures: {
-                imagingExams: Array<string>;
-                laboratoryTests: Array<string>;
-            };
-        }
-    }
+    insights: Insights;
 }
 
 class NaturalLanguageProcessingService {
@@ -54,4 +56,4 @@ class NaturalLanguageProcessingService {
     }
 }
 
-export { NaturalLanguageProcessingService, InformationExtractionResults }
+export { NaturalLanguageProcessingService, InformationExtractionResults, Insights }
