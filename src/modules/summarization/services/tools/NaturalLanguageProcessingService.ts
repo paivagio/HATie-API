@@ -1,5 +1,7 @@
 import { spawn } from 'child_process';
 import { InternalServerError } from 'src/utils/errors';
+import axios from "axios";
+
 
 interface IRequest {
     transcription: string;
@@ -30,8 +32,21 @@ interface InformationExtractionResults {
 }
 
 class NaturalLanguageProcessingService {
-    async execute(args: IRequest) {
-        return new Promise<InformationExtractionResults>((resolve, reject) => {
+    async execute({ transcription, audioPath }: IRequest) {
+        try {
+            const url = `${process.env.NLP_API_URL}/extract?transcription=${transcription}&audioPath=${audioPath}`;
+            const data = await axios.get<InformationExtractionResults>(url);
+            return data;
+        } catch (error) {
+            throw new InternalServerError("A problem occurred with the information extraction pipeline");
+        }
+    }
+}
+
+export { NaturalLanguageProcessingService, InformationExtractionResults, Insights }
+
+/*
+return new Promise<InformationExtractionResults>((resolve, reject) => {
             let returnedData = "";
             let returnedErrors = "";
 
@@ -53,7 +68,4 @@ class NaturalLanguageProcessingService {
                 }
             });
         });
-    }
-}
-
-export { NaturalLanguageProcessingService, InformationExtractionResults, Insights }
+*/
