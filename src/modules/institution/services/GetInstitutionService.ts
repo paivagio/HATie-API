@@ -1,6 +1,6 @@
 import { Status } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     id: string;
@@ -8,6 +8,7 @@ interface IRequest {
 
 class GerInstitutionService {
     async execute({ id }: IRequest) {
+        if (!id) return new BadRequestError("Institution ID is required");
 
         const institution = await prismaClient.institution.findFirst({
             where: {

@@ -22,12 +22,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "paths": {
-      //"@controllers/*": ["./src/controllers/*"],
-      //"@models/*": ["./src/models/*"],
-      //"@config/*": ["./src/config/*"],
-      //"@utils/*": ["./src/utils/*"]
-    }
+    "paths": {}
   },
   "include": [
     "src/**/*"

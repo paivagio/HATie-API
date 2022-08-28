@@ -16,9 +16,7 @@ class UpdateSummarizationService {
     async execute({ id, title, transcription, audioPath, insights, status }: IRequest) {
         let summarization: Summarization;
 
-        if (!id) {
-            return new BadRequestError("ID field is required");
-        }
+        if (!id) return new BadRequestError("Summarization ID is required");
 
         try {
             summarization = await prismaClient.summarization.update({

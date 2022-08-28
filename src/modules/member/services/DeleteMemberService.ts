@@ -1,6 +1,6 @@
 import { Member } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     id: string;
@@ -9,6 +9,8 @@ interface IRequest {
 class DeleteMemberService {
     async execute({ id }: IRequest) {
         let member: Member;
+
+        if (!id) return new BadRequestError("Member ID is required");
 
         try {
             member = await prismaClient.member.delete({

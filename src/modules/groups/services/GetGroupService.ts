@@ -1,5 +1,5 @@
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     id: string;
@@ -7,6 +7,7 @@ interface IRequest {
 
 class GetGroupService {
     async execute({ id }: IRequest) {
+        if (!id) return new BadRequestError("Group ID is required");
 
         const group = await prismaClient.group.findFirst({
             where: {

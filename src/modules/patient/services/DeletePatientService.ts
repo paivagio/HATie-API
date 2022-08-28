@@ -1,6 +1,6 @@
 import { Patient } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     id: string;
@@ -9,6 +9,8 @@ interface IRequest {
 class DeletePatientService {
     async execute({ id }: IRequest) {
         let patient: Patient;
+
+        if (!id) return new BadRequestError("Patient ID is required");
 
         try {
             patient = await prismaClient.patient.delete({

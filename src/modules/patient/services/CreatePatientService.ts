@@ -1,5 +1,5 @@
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     fullname: string;
@@ -12,6 +12,12 @@ interface IRequest {
 
 class CreatePatientService {
     async execute({ id, fullname, birthdate, height, weight, groupId }: IRequest) {
+        if (!id || !fullname) return new BadRequestError("Institution ID and patient name are required");
+
+        if (height && (0 > height || height > 2.5)) return new BadRequestError("Invalid height");
+        if (weight && 0 > weight) return new BadRequestError("Invalid weight");
+        try { new Date(birthdate) } catch (e) { return new BadRequestError("Invalid birthdate"); }
+
         const institutionExists = await prismaClient.institution.findFirst({
             where: {
                 id

@@ -1,5 +1,5 @@
 import { prismaClient } from "src/database/prismaClient";
-import { BadRequestError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     userId: string;
@@ -9,6 +9,8 @@ interface IRequest {
 
 class CreateMemberService {
     async execute({ userId, institutionId, authorizations }: IRequest) {
+        if (!userId || !institutionId) return new BadRequestError("User and institution ID are required");
+
         const memberAlreadyExists = await prismaClient.member.findFirst({
             where: { userId: userId, institutionId: institutionId }
         })
@@ -22,7 +24,7 @@ class CreateMemberService {
         })
 
         if (!userExists) {
-            return new BadRequestError("User does not exists");
+            return new NotFoundError("User does not exists");
         }
 
         const institutionExists = await prismaClient.institution.findFirst({
@@ -30,7 +32,7 @@ class CreateMemberService {
         })
 
         if (!institutionExists) {
-            return new BadRequestError("Institution does not exists");
+            return new NotFoundError("Institution does not exist");
         }
 
         const member = await prismaClient.member.create({

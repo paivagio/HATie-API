@@ -1,5 +1,5 @@
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 import { InformationExtractionResults } from "./tools/NaturalLanguageProcessingService";
 
 interface IRequest {
@@ -8,6 +8,8 @@ interface IRequest {
 
 class CreateSummarizationService {
     async execute({ id }: IRequest) {
+        if (!id) return new BadRequestError("Patient ID is required");
+
         const patientExists = await prismaClient.patient.findFirst({
             where: {
                 id

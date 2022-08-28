@@ -3,10 +3,15 @@ import { StatusCodes } from 'src/utils/errors';
 import { CreateSummarizationService } from '../services/CreateSummarizationService';
 import { SummarizationPipelineService } from '../services/SummarizationPipelineService';
 
+type RequestBody = {
+    fileUrl: string;
+}
+
 class CreateSummarizationController {
     async handle(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
-        const { fileUrl } = req.body;
+        const { fileUrl } = req.body as RequestBody;
+        const testEnvironment = fileUrl.toLowerCase().includes("validtestrecording");
 
         // CREATE ENTRY ON DATABASE
         const createSummarizationService = new CreateSummarizationService();
@@ -20,7 +25,7 @@ class CreateSummarizationController {
         const summarizationPipelineService = new SummarizationPipelineService();
         const { id: summarizationId } = summarization;
 
-        summarizationPipelineService.execute({ id: summarizationId, fileUrl });
+        if (!testEnvironment) summarizationPipelineService.execute({ id: summarizationId, fileUrl });
 
         return res.status(StatusCodes.CREATED).json(summarization);
     }

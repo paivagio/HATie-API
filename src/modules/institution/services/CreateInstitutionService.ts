@@ -1,5 +1,5 @@
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     ownerId: string;
@@ -8,6 +8,7 @@ interface IRequest {
 
 class CreateInstitutionService {
     async execute({ ownerId, name }: IRequest) {
+        if (!ownerId || !name) return new BadRequestError("Owner ID and institution name are required");
 
         const ownerExists = await prismaClient.user.findFirst({
             where: { id: ownerId },

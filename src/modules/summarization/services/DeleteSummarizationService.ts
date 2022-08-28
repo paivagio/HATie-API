@@ -1,6 +1,6 @@
 import { Summarization } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     id: string;
@@ -9,6 +9,8 @@ interface IRequest {
 class DeleteSummarizationService {
     async execute({ id }: IRequest) {
         let summarization: Summarization;
+
+        if (!id) return new BadRequestError("Summarization ID is required");
 
         try {
             summarization = await prismaClient.summarization.delete({

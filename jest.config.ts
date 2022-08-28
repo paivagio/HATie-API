@@ -3,5 +3,12 @@ const { compilerOptions } = require('./tsconfig.json');
 
 export default {
   clearMocks: true,
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>' }),
+  preset: "ts-jest",
+  testMatch: ["**/**/*.spec.ts"],
+  //moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>' }),
+  moduleDirectories: [
+    "<rootDir>",
+    "node_modules"
+  ],
+  globalTeardown: "./src/utils/scripts/databaseCleaner.ts"
 };

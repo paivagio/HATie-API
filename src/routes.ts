@@ -1,4 +1,4 @@
-import e, { Router } from "express";
+import { Router } from "express";
 import { initializeControllers } from "./initializeControllers";
 import { FlacConverter } from "./middleware/conversionHandler";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";

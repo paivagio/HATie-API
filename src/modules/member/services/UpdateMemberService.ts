@@ -1,6 +1,6 @@
 import { Member, Status } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     id: string;
@@ -12,6 +12,8 @@ interface IRequest {
 class UpdateMemberService {
     async execute({ id, authorizations, invitation }: IRequest) {
         let member: Member;
+
+        if (!id) return new BadRequestError("Member ID is required");
 
         try {
             member = await prismaClient.member.update({

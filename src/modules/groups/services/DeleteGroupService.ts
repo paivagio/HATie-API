@@ -1,6 +1,6 @@
 import { Group } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     id: string;
@@ -9,6 +9,8 @@ interface IRequest {
 class DeleteGroupService {
     async execute({ id }: IRequest) {
         let group: Group;
+
+        if (!id) return new BadRequestError("Group ID is required");
 
         try {
             group = await prismaClient.group.delete({

@@ -16,10 +16,13 @@ interface ICreateUserRequest {
 
 class CreateUserService {
     async execute({ fullname, email, password, isAdmin, preferences }: ICreateUserRequest) {
+        if (!email || !password || !fullname) return new BadRequestError("Email, password and name are required");
 
-        if (!email) {
-            return new BadRequestError("Please enter a valid email");
-        }
+        //checar se a senha tem uma letra maiuscula e um caracter especial
+        if (!password.search(/[A-Z]/g)) return new BadRequestError("Password must contain at least one upper case character");
+        if (!password.search(/[a-z]/g)) return new BadRequestError("Password must contain at least one lower case character");
+        if (!password.search(/[!@#$%&*()]/g)) return new BadRequestError("Password must contain at least one special character");
+        if (!password.search(/[0-9]/g)) return new BadRequestError("Password must contain at least one number");
 
         const userAlreadyExists = await prismaClient.user.findFirst({
             where: { email: email }

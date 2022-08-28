@@ -16,14 +16,18 @@ class UpdatePatientService {
     async execute({ id, fullname, birthdate, height, weight, groupId, institutionId }: IRequest) {
         let patient: Patient;
 
-        if (!id) {
-            return new BadRequestError("Invalid ID number");
-        }
+        if (!id) return new BadRequestError("Patient ID is required");
 
         if (groupId && groupId !== "") {
-            if (!institutionId) {
-                return new BadRequestError("Invalid institution ID");
-            }
+            if (!institutionId) return new BadRequestError("The institution ID is required if you want to change the patient's group");
+
+            const institutionExists = await prismaClient.institution.findFirst({
+                where: {
+                    id: institutionId
+                }
+            });
+
+            if (!institutionExists) return new NotFoundError("Institution does not exist");
 
             const groupExists = await prismaClient.group.findFirst({
                 where: {

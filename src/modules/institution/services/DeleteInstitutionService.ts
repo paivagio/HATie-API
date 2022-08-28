@@ -1,6 +1,6 @@
 import { Institution } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IRequest {
     id: string;
@@ -9,6 +9,8 @@ interface IRequest {
 class DeleteInstitutionService {
     async execute({ id }: IRequest) {
         let institution: Institution;
+
+        if (!id) return new BadRequestError("Institution ID is required");
 
         try {
             institution = await prismaClient.institution.delete({

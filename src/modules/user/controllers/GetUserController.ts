@@ -5,7 +5,6 @@ import { GetUserService } from '../services/GetUserService';
 class GetUserController {
     async handle(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
-        console.log(id);
 
         const getUserService = new GetUserService();
 

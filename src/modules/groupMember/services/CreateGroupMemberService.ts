@@ -9,6 +9,8 @@ interface IRequest {
 
 class CreateGroupMemberService {
     async execute({ memberId, id, authorizations }: IRequest) {
+        if (!memberId || !id) return new BadRequestError("Group and Member IDs are required");
+
         const groupMemberAlreadyExists = await prismaClient.groupMember.findFirst({
             where: {
                 memberId: memberId,

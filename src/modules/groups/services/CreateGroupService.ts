@@ -9,6 +9,8 @@ interface IRequest {
 
 class CreateGroupService {
     async execute({ name, description = "No description", id }: IRequest) {
+        if (!id || !name) return new BadRequestError("Institution ID and group name are required");
+
         const institutionExists = await prismaClient.institution.findFirst({
             where: { id },
         })

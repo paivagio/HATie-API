@@ -1,6 +1,6 @@
 import { Status } from "@prisma/client";
 import { prismaClient } from "src/database/prismaClient";
-import { NotFoundError } from "src/utils/errors";
+import { BadRequestError, NotFoundError } from "src/utils/errors";
 
 interface IGetUserRequest {
     id: string;
@@ -8,6 +8,7 @@ interface IGetUserRequest {
 
 class GetUserService {
     async execute({ id }: IGetUserRequest) {
+        if (!id) return new BadRequestError("User ID is required");
 
         const user = await prismaClient.user.findFirst({
             where: {
@@ -17,7 +18,7 @@ class GetUserService {
                 id: true,
                 fullname: true,
                 email: true,
-                password: true,
+                password: false,
                 isAdmin: true,
                 preferences: true,
                 createdAt: true,
