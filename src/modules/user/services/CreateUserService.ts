@@ -19,10 +19,10 @@ class CreateUserService {
         if (!email || !password || !fullname) return new BadRequestError("Email, password and name are required");
 
         //checar se a senha tem uma letra maiuscula e um caracter especial
-        if (!password.search(/[A-Z]/g)) return new BadRequestError("Password must contain at least one upper case character");
-        if (!password.search(/[a-z]/g)) return new BadRequestError("Password must contain at least one lower case character");
-        if (!password.search(/[!@#$%&*()]/g)) return new BadRequestError("Password must contain at least one special character");
-        if (!password.search(/[0-9]/g)) return new BadRequestError("Password must contain at least one number");
+        if (!password.match(/[A-Z]/g)) return new BadRequestError("Password must contain at least one upper case character");
+        if (!password.match(/[a-z]/g)) return new BadRequestError("Password must contain at least one lower case character");
+        if (!password.match(/[!@#$%&*()]/g)) return new BadRequestError("Password must contain at least one special character");
+        if (!password.match(/[0-9]/g)) return new BadRequestError("Password must contain at least one number");
 
         const userAlreadyExists = await prismaClient.user.findFirst({
             where: { email: email }

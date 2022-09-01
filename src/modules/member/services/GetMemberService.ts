@@ -16,7 +16,7 @@ class GetMemberService {
         });
 
         if (!member) {
-            return new NotFoundError("User not found");
+            return new NotFoundError("Member not found");
         }
 
         return member;

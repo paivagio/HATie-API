@@ -24,7 +24,7 @@ class GetGroupService {
         });
 
         if (!group) {
-            return new NotFoundError("Institution not found");
+            return new NotFoundError("Group not found");
         }
 
         return group;
