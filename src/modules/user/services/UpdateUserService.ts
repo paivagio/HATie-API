@@ -4,7 +4,9 @@ import { BadRequestError, NotFoundError } from "src/utils/errors";
 import { User } from "@prisma/client";
 
 type Preferences = {
+    notifications: boolean;
     darkmode: boolean;
+    sound: boolean;
 }
 
 interface IUpdateUserRequest {

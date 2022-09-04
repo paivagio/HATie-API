@@ -5,7 +5,7 @@ interface IRequest {
     id: string;
 }
 
-class GetMembersService {
+class GetPatientsService {
     async execute({ id }: IRequest) {
         if (!id) return new BadRequestError("Institution ID is required");
 
@@ -17,21 +17,14 @@ class GetMembersService {
             return new NotFoundError("Institution does not exists");
         }
 
-        const members = await prismaClient.member.findMany({
+        const patients = await prismaClient.patient.findMany({
             where: {
-                institutionId: id,
-            },
-            include: {
-                User: {
-                    select: {
-                        fullname: true
-                    }
-                }
+                institutionId: id
             }
-        })
+        });
 
-        return members;
+        return patients;
     }
 }
 
-export { GetMembersService }
+export { GetPatientsService }

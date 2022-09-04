@@ -2,6 +2,7 @@ import { AuthenticateUserController } from "./modules/authentication/Authenticat
 import { CreateGroupMemberController } from "./modules/groupMember/controllers/CreateGroupMemberController";
 import { DeleteGroupMemberController } from "./modules/groupMember/controllers/DeleteGroupMemberController";
 import { GetGroupMemberController } from "./modules/groupMember/controllers/GetGroupMemberContreoller";
+import { GetGroupMembersController } from "./modules/groupMember/controllers/GetGroupMembersController";
 import { UpdateGroupMemberController } from "./modules/groupMember/controllers/UpdateGroupMemberController";
 import { CreateGroupController } from "./modules/groups/controllers/CreateGroupController";
 import { DeleteGroupController } from "./modules/groups/controllers/DeleteGroupController";
@@ -19,6 +20,7 @@ import { UpdateMemberController } from "./modules/member/controllers/UpdateMembe
 import { CreatePatientController } from "./modules/patient/controllers/CreatePatientController";
 import { DeletePatientController } from "./modules/patient/controllers/DeletePatientController";
 import { GetPatientController } from "./modules/patient/controllers/GetPatientController";
+import { GetPatientsController } from "./modules/patient/controllers/GetPatientsController";
 import { UpdatePatientController } from "./modules/patient/controllers/UpdatePatientController";
 import { CreateSummarizationController } from "./modules/summarization/controllers/CreateSummarizationController";
 import { DeleteSummarizationController } from "./modules/summarization/controllers/DeleteSummarizationController";
@@ -26,6 +28,7 @@ import { GetSummarizationController } from "./modules/summarization/controllers/
 import { UpdateSummarizationController } from "./modules/summarization/controllers/UpdateSummarizationController";
 import { CreateUserController } from "./modules/user/controllers/CreateUserController";
 import { DeleteUserController } from "./modules/user/controllers/DeleteUserController";
+import { GetUserByEmailController } from "./modules/user/controllers/GetUserByEmailController";
 import { GetUserController } from "./modules/user/controllers/GetUserController";
 import { UpdateUserController } from "./modules/user/controllers/UpdateUserController";
 
@@ -34,6 +37,7 @@ class initializeControllers {
 
     createUserController = () => { return new CreateUserController() };
     getUserController = () => { return new GetUserController() };
+    getUserByEmailController = () => { return new GetUserByEmailController() };
     updateUserController = () => { return new UpdateUserController() };
     deleteUserController = () => { return new DeleteUserController() };
 
@@ -55,11 +59,13 @@ class initializeControllers {
 
     createGroupMemberController = () => { return new CreateGroupMemberController() };
     getGroupMemberController = () => { return new GetGroupMemberController() };
+    getGroupMembersController = () => { return new GetGroupMembersController() };
     updateGroupMemberController = () => { return new UpdateGroupMemberController() };
     deleteGroupMemberController = () => { return new DeleteGroupMemberController() };
 
     createPatientController = () => { return new CreatePatientController() };
     getPatientController = () => { return new GetPatientController() };
+    getPatientsController = () => { return new GetPatientsController() };
     updatePatientController = () => { return new UpdatePatientController() };
     deletePatientController = () => { return new DeletePatientController() };
 

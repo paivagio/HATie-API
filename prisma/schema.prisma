@@ -33,7 +33,7 @@ model Institution {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  User    User      @relation(fields: [ownerId], references: [id])
+  User    User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   Member  Member[]
   Group   Group[]
   Patient Patient[]
@@ -57,8 +57,8 @@ model Member {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
-  User        User          @relation(fields: [userId], references: [id])
-  Institution Institution   @relation(fields: [institutionId], references: [id])
+  User        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Institution Institution   @relation(fields: [institutionId], references: [id], onDelete: Cascade)
   GroupMember GroupMember[]
 
   @@map("members")
@@ -72,7 +72,7 @@ model Group {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  Institution Institution   @relation(fields: [institutionId], references: [id])
+  Institution Institution   @relation(fields: [institutionId], references: [id], onDelete: Cascade)
   GroupMember GroupMember[]
   Patient     Patient[]
 
@@ -85,8 +85,8 @@ model GroupMember {
   groupId        String
   authorizations Int    @default(100)
 
-  Member Member @relation(fields: [memberId], references: [id])
-  Group  Group  @relation(fields: [groupId], references: [id])
+  Member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  Group  Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
 
   @@map("group_members")
 }
@@ -102,8 +102,8 @@ model Patient {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  Institution   Institution     @relation(fields: [institutionId], references: [id])
-  Group         Group?          @relation(fields: [groupId], references: [id])
+  Institution   Institution     @relation(fields: [institutionId], references: [id], onDelete: Cascade)
+  Group         Group?          @relation(fields: [groupId], references: [id], onDelete: Cascade)
   Summarization Summarization[]
 
   @@map("patients")
@@ -126,7 +126,7 @@ model Summarization {
   createdAt     DateTime            @default(now())
   updatedAt     DateTime            @updatedAt
 
-  Patient Patient @relation(fields: [patientId], references: [id])
+  Patient Patient @relation(fields: [patientId], references: [id], onDelete: Cascade)
 
   @@map("summarizations")
 }
