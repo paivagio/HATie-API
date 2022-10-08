@@ -9,18 +9,14 @@ interface IRequest {
 }
 
 interface Insights {
-    tags: Array<{ tag: string; category: string }>;
-    highlightedTranscription: Array<{ words: string; category: string }>;
+    tags: Array<{ token: string; category: string }>;
+    highlightedTranscription: Array<{ token: string; category: string }>;
     structuredData: {
-        conditions: Array<string>;
-        substances: {
-            medicines: Array<string>;
-            other: Array<string>;
-        };
-        procedures: {
-            imagingExams: Array<string>;
-            laboratoryTests: Array<string>;
-        };
+        clinicaldepartments: Array<string>;
+        occurances: Array<string>;
+        problems: Array<string>;
+        tests: Array<string>;
+        treatments: Array<string>;
     }
 }
 
@@ -36,9 +32,9 @@ class NaturalLanguageProcessingService {
         try {
             const url = `${process.env.NLP_API_URL}/extract?transcription=${transcription}&audioPath=${audioPath}`;
             const data = await axios.get<InformationExtractionResults>(url);
-            return data;
+            return data.data;
         } catch (error) {
-            throw new InternalServerError("A problem occurred with the information extraction pipeline");
+            return new InternalServerError(error); //"A problem occurred with the information extraction pipeline"
         }
     }
 }

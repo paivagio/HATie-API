@@ -12,6 +12,21 @@ class GetGroupMembersService {
         const groupMember = await prismaClient.groupMember.findMany({
             where: {
                 groupId: id,
+            },
+            select: {
+                id: true,
+                memberId: true,
+                groupId: true,
+                authorizations: true,
+                Member: {
+                    select: {
+                        User: {
+                            select: {
+                                fullname: true
+                            }
+                        }
+                    }
+                }
             }
         })
 

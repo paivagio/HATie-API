@@ -17,12 +17,14 @@ class SummarizationPipelineService {
         // REQUEST AUDIO TRANSCRIPTION TO GOOGLE SPEECH-TO-TEXT API
         const speechToTextService = new SpeechToTextService();
 
-        const transcriptedText = await speechToTextService.execute({ fileUrl });
+        const transcriptedText = await speechToTextService.execute({ fileUrl: fileUrl.replace(/\.m4a$/, '.raw') });
 
         if (transcriptedText instanceof Error) {
-            await udpateSummarizationService.execute({ id, status: SummarizationStatus.FAILED });
+            await udpateSummarizationService.execute({ id, error: transcriptedText, status: SummarizationStatus.FAILED });
             return;
         }
+
+        console.log("TRANSCRIPTION:", transcriptedText);
 
         // EXTRACT INFORMATION WITH NATURAL LANGUAGE PROCESSING PIPELINE
         const naturalLanguageProcessingService = new NaturalLanguageProcessingService();
@@ -30,7 +32,7 @@ class SummarizationPipelineService {
         const extractedInformation = await naturalLanguageProcessingService.execute({ transcription: transcriptedText, audioPath: fileUrl });
 
         if (extractedInformation instanceof Error) {
-            await udpateSummarizationService.execute({ id, status: SummarizationStatus.FAILED });
+            await udpateSummarizationService.execute({ id, transcription: transcriptedText, error: extractedInformation, status: SummarizationStatus.FAILED });
             return;
         }
 

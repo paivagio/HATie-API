@@ -12,6 +12,22 @@ class GetMemberService {
         const member = await prismaClient.member.findFirst({
             where: {
                 id,
+            },
+            select: {
+                id: true,
+                userId: true,
+                institutionId: true,
+                authorizations: true,
+                invitation: true,
+                acceptedAt: true,
+                createdAt: true,
+                updatedAt: true,
+                User: {
+                    select: {
+                        fullname: true
+                    }
+                },
+                GroupMember: true
             }
         });
 

@@ -41,7 +41,7 @@ function UploadFileToGoogleCloudStorageByBuffer(req: Request, res: Response, nex
 
 function UploadFileToGoogleCloudStorageFromLocalStorage(req: Request, res: Response, next: NextFunction) {
     const bucketName = "hatie-speech-api";
-    const filename = `audio-files/${Date.now()}-${req.file.originalname}`;
+    const filename = `audio-files/${req.file.originalname}`;
 
     storage
         .bucket(bucketName)
@@ -49,7 +49,6 @@ function UploadFileToGoogleCloudStorageFromLocalStorage(req: Request, res: Respo
         .then(async () => {
             try {
                 await storage.bucket(bucketName).file(filename).makePublic();
-                req.body.fileUrl = `gs://${bucketName}/${filename}`;
                 fs.unlinkSync(req.file.path);
                 next();
             } catch (err) {
@@ -62,4 +61,28 @@ function UploadFileToGoogleCloudStorageFromLocalStorage(req: Request, res: Respo
         });
 };
 
-export { UploadFileToGoogleCloudStorageByBuffer, UploadFileToGoogleCloudStorageFromLocalStorage };
+function UploadUnconvertedAudioToGCS(req: Request, res: Response, next: NextFunction) {
+    const bucketName = "hatie-speech-api";
+    const filename = `${Date.now()}-${req.file.originalname}`
+    const filePath = `audio-files/${filename}`;
+
+    storage
+        .bucket(bucketName)
+        .upload(req.file.path, { destination: filePath })
+        .then(async () => {
+            try {
+                await storage.bucket(bucketName).file(filePath).makePublic();
+                req.file.originalname = filename;
+                req.body.fileUrl = `gs://${bucketName}/${filePath}`;
+                next();
+            } catch (err) {
+                fs.unlinkSync(req.file.path);
+                return res.status(StatusCodes.INTERNAL_SERVER).end(err.message); //"Successfully uploaded file, but public access was denied"
+            }
+        }).catch((err) => {
+            fs.unlinkSync(req.file.path);
+            return res.status(StatusCodes.INTERNAL_SERVER).end(err.message);
+        });
+};
+
+export { UploadFileToGoogleCloudStorageByBuffer, UploadFileToGoogleCloudStorageFromLocalStorage, UploadUnconvertedAudioToGCS };

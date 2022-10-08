@@ -3,7 +3,7 @@ import { initializeControllers } from "./initializeControllers";
 import { FlacConverter } from "./middleware/conversionHandler";
 import { ensureAuthenticated } from "./middleware/ensureAuthenticated";
 import { FileHandler } from "./middleware/fileHandler";
-import { UploadFileToGoogleCloudStorageFromLocalStorage } from "./middleware/uploadHandler";
+import { UploadFileToGoogleCloudStorageFromLocalStorage, UploadUnconvertedAudioToGCS } from "./middleware/uploadHandler";
 
 const routes = Router();
 
@@ -78,7 +78,7 @@ routes.get("/institutions/:id/patients", ensureAuthenticated, getPatientsControl
 routes.patch("/patients/:id", ensureAuthenticated, updatePatientController().handle);
 routes.delete("/patients/:id", ensureAuthenticated, deletePatientController().handle);
 
-routes.post("/patients/:id/summarizations", ensureAuthenticated, FileHandler, FlacConverter, UploadFileToGoogleCloudStorageFromLocalStorage, createSummarizationController().handle);
+routes.post("/patients/:id/summarizations", ensureAuthenticated, FileHandler, UploadUnconvertedAudioToGCS, FlacConverter, UploadFileToGoogleCloudStorageFromLocalStorage, createSummarizationController().handle);
 routes.get("/summarizations/:id", ensureAuthenticated, getSummarizationController().handle);
 routes.patch("/summarizations/:id", ensureAuthenticated, updateSummarizationController().handle);
 routes.delete("/summarizations/:id", ensureAuthenticated, deleteSummarizationController().handle);
