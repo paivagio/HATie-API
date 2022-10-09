@@ -26,10 +26,12 @@ import { CreateSummarizationController } from "./modules/summarization/controlle
 import { DeleteSummarizationController } from "./modules/summarization/controllers/DeleteSummarizationController";
 import { GetSummarizationController } from "./modules/summarization/controllers/GetSummarizationController";
 import { UpdateSummarizationController } from "./modules/summarization/controllers/UpdateSummarizationController";
+import { ValidateSummarizationController } from "./modules/summarization/controllers/ValidateSummarizationController";
 import { CreateUserController } from "./modules/user/controllers/CreateUserController";
 import { DeleteUserController } from "./modules/user/controllers/DeleteUserController";
 import { GetUserByEmailController } from "./modules/user/controllers/GetUserByEmailController";
 import { GetUserController } from "./modules/user/controllers/GetUserController";
+import { ResetPasswordController } from "./modules/user/controllers/ResetPasswordController";
 import { UpdateUserController } from "./modules/user/controllers/UpdateUserController";
 
 class initializeControllers {
@@ -39,6 +41,7 @@ class initializeControllers {
     getUserController = () => { return new GetUserController() };
     getUserByEmailController = () => { return new GetUserByEmailController() };
     updateUserController = () => { return new UpdateUserController() };
+    resetPasswordController = () => { return new ResetPasswordController() };
     deleteUserController = () => { return new DeleteUserController() };
 
     createMemberController = () => { return new CreateMemberController() };
@@ -72,6 +75,7 @@ class initializeControllers {
     createSummarizationController = () => { return new CreateSummarizationController() };
     getSummarizationController = () => { return new GetSummarizationController() };
     updateSummarizationController = () => { return new UpdateSummarizationController() };
+    validateSummarizationController = () => { return new ValidateSummarizationController() };
     deleteSummarizationController = () => { return new DeleteSummarizationController() };
 }
 

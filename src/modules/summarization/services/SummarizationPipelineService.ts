@@ -24,8 +24,6 @@ class SummarizationPipelineService {
             return;
         }
 
-        console.log("TRANSCRIPTION:", transcriptedText);
-
         // EXTRACT INFORMATION WITH NATURAL LANGUAGE PROCESSING PIPELINE
         const naturalLanguageProcessingService = new NaturalLanguageProcessingService();
 

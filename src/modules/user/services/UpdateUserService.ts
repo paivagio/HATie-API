@@ -11,10 +11,10 @@ type Preferences = {
 
 interface IUpdateUserRequest {
     id: string;
-    fullname: string;
-    email: string;
-    password: string;
-    preferences: Preferences;
+    fullname?: string;
+    email?: string;
+    password?: string;
+    preferences?: Preferences;
 }
 
 class UpdateUserService {

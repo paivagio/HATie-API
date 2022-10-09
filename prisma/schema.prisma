@@ -83,7 +83,7 @@ model GroupMember {
   id             String @id @default(uuid())
   memberId       String
   groupId        String
-  authorizations Int    @default(100)
+  authorizations Int    @default(001)
 
   Member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
   Group  Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)

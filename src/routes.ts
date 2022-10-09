@@ -13,6 +13,7 @@ const {
     getUserController,
     getUserByEmailController,
     updateUserController,
+    resetPasswordController,
     deleteUserController,
     createMemberController,
     getMemberController,
@@ -40,14 +41,16 @@ const {
     createSummarizationController,
     getSummarizationController,
     updateSummarizationController,
+    validateSummarizationController,
     deleteSummarizationController
 } = new initializeControllers();
 
 routes.post("/auth", authenticateUserController().handle);
 routes.post("/users", createUserController().handle);
 routes.get("/users/:id", ensureAuthenticated, getUserController().handle);
-routes.get("/users/:email/search", ensureAuthenticated, getUserByEmailController().handle);
+routes.get("/users/:email/search", getUserByEmailController().handle);
 routes.patch("/users/:id", ensureAuthenticated, updateUserController().handle);
+routes.patch("/users/:id/resetpassword", resetPasswordController().handle);
 routes.delete("/users/:id", ensureAuthenticated, deleteUserController().handle);
 
 routes.post("/institutions/:id/members", ensureAuthenticated, createMemberController().handle);
@@ -81,6 +84,7 @@ routes.delete("/patients/:id", ensureAuthenticated, deletePatientController().ha
 routes.post("/patients/:id/summarizations", ensureAuthenticated, FileHandler, UploadUnconvertedAudioToGCS, FlacConverter, UploadFileToGoogleCloudStorageFromLocalStorage, createSummarizationController().handle);
 routes.get("/summarizations/:id", ensureAuthenticated, getSummarizationController().handle);
 routes.patch("/summarizations/:id", ensureAuthenticated, updateSummarizationController().handle);
+routes.patch("/summarizations/:id/validate", ensureAuthenticated, validateSummarizationController().handle);
 routes.delete("/summarizations/:id", ensureAuthenticated, deleteSummarizationController().handle);
 
 export { routes };

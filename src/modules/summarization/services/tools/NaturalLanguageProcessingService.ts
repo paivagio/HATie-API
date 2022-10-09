@@ -40,28 +40,3 @@ class NaturalLanguageProcessingService {
 }
 
 export { NaturalLanguageProcessingService, InformationExtractionResults, Insights }
-
-/*
-return new Promise<InformationExtractionResults>((resolve, reject) => {
-            let returnedData = "";
-            let returnedErrors = "";
-
-            const python = spawn('python', ['./python/main.py', JSON.stringify(args)]);
-
-            python.stdout.on('data', (data: string) => {
-                returnedData += data.toString();
-            });
-
-            python.stderr.on('data', (data: string) => {
-                returnedErrors += data.toString();
-            });
-
-            python.stdout.on('close', (code: number) => {
-                if (returnedErrors == "") {
-                    resolve(JSON.parse(returnedData));
-                } else {
-                    reject(new InternalServerError(returnedErrors));
-                }
-            });
-        });
-*/

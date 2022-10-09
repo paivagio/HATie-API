@@ -22,7 +22,8 @@ class UpdateMemberService {
                 },
                 data: {
                     authorizations: authorizations ? authorizations : undefined,
-                    invitation: invitation ? invitation : undefined
+                    invitation: invitation ? invitation : undefined,
+                    acceptedAt: invitation && invitation === Status.ACCEPTED ? new Date().toISOString() : undefined
                 }
             });
         } catch (err) {
